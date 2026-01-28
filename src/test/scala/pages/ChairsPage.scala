@@ -24,7 +24,10 @@ object ChairsPage {
         http("Open Chair Product")
           .get("/products/#{chairId}")
           .check(status.is(200))
-          .check(regex("name=\"add-to-cart\" value=\"(\\d+)\"").saveAs("chairProductId"))
+          .check(
+            regex("""<link rel='shortlink' href='.*/\?p=(\d+)'""")
+              .saveAs("chairProductId")
+          )
       )
         .pause(minThinkTime, maxThinkTime)
     }

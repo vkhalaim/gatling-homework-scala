@@ -24,7 +24,10 @@ object TablesPage {
         http("Open Table Product")
           .get("/products/#{tableId}")
           .check(status.is(200))
-          .check(regex("name=\"add-to-cart\" value=\"(\\d+)\"").saveAs("tableProductId"))
+          .check(
+            regex("""<link rel='shortlink' href='.*/\?p=(\d+)'""")
+              .saveAs("tableProductId")
+          )
       )
         .pause(minThinkTime, maxThinkTime)
     }
@@ -38,7 +41,7 @@ object TablesPage {
           .formParam("action", "ic_add_to_cart")
           .formParam(
             "add_cart_data",
-            "current_product=#{tableProductId}&cart_content=#{cartContent}&current_quantity=1"
+            "current_product=#{tableProductId}&cart_content=&current_quantity=1"
           )
           .check(regex("Added!").exists)
       )

@@ -13,9 +13,9 @@ object CheckoutPage {
         http("Open Checkout")
           .get("/checkout")
           .check(status.is(200))
-          .check(regex("name=\"cart_content\" value='(.+?)'").saveAs("cartContent"))
-          .check(regex("name=\"total_net\" value=\"(.+?)\"").saveAs("totalNet"))
-          .check(regex("name=\"trans_id\" value=\"(\\d+)\"").saveAs("transId"))
+          .check(regex("""name="cart_content" value='(.+?)'""").saveAs("cartContent"))
+          .check(regex("""value="(\d+)" name="trans_id"""").saveAs("transId"))
+          .check(regex("""name="total_net" value="(.+?)"""").saveAs("totalNet"))
       )
         .pause(minThinkTime, maxThinkTime)
     }
