@@ -24,24 +24,24 @@ class PerfTestSimulation extends Simulation {
       exec(flushState)
 
         // 1. Open application
-        .exec(HomePage.open)
+        .exec(Home.open)
 
         // 2. Navigate to Tables
-        .exec(TablesPage.open)
-        .exec(TablesPage.openRandomTable)
-        .exec(TablesPage.addToCart)
+        .exec(Tables.open)
+        .exec(Tables.openRandomTable)
+        .exec(Tables.addToCart)
 
         // 3. 50% users add Chair
         .randomSwitch(
-          50.0 -> exec(ChairsPage.flow)
+          50.0 -> exec(Chairs.flow)
         )
 
         // 4. 30% of ALL users go to checkout
         .randomSwitch(
           30.0 -> exec(
-            CartPage.open
-              .exec(CheckoutPage.open)
-              .exec(CheckoutPage.submit)
+            Cart.open
+              .exec(Checkout.open)
+              .exec(Checkout.submit)
           )
         )
     }

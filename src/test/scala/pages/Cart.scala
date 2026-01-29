@@ -5,15 +5,19 @@ import io.gatling.http.Predef._
 import base.BaseHelpers._
 import io.gatling.core.structure.ChainBuilder
 
-object HomePage {
+object Cart {
 
   val open: ChainBuilder =
-    group("01_Open_Home_Page") {
+    group("08_Open_Cart_Page") {
       exec(
-        http("Open Home")
-          .get("/")
+        http("Open Cart")
+          .get("/cart")
           .check(status.is(200))
-          .check(regex("Performance testing Essentials").exists)
+          .check(
+            regex("name=\"cart_content\" value='(.*?)'")
+              .optional
+              .saveAs("cartContent")
+          )
       )
         .pause(minThinkTime, maxThinkTime)
     }

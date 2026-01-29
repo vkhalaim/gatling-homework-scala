@@ -5,7 +5,7 @@ import io.gatling.http.Predef._
 import base.BaseHelpers._
 import io.gatling.core.structure.ChainBuilder
 
-object CheckoutPage {
+object Checkout {
 
   val open: ChainBuilder =
     group("09_Open_Checkout_Page") {
