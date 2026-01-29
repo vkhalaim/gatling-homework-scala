@@ -25,31 +25,13 @@ object Chairs {
           .get("/products/#{chairId}")
           .check(
             regex("""<link rel='shortlink' href='.*/\?p=(\d+)'""")
-              .saveAs("chairProductId")
+              .saveAs("currentProductId")
           )
           .check(
-            regex("name=\"cart_content\" value='(.*?)'")
+            regex("""name="cart_content" value='(.*?)'""")
               .optional
               .saveAs("cartContent")
           )
-      )
-        .pause(minThinkTime, maxThinkTime)
-    }
-
-  val addToCart: ChainBuilder =
-    group("07_Add_Chair_To_Cart") {
-      exec(
-        http("Add Chair To Cart")
-          .post("/wp-admin/admin-ajax.php")
-          .asFormUrlEncoded
-          .formParam("action", "ic_add_to_cart")
-          .formParam(
-            "add_cart_data",
-            "current_product=#{tableProductId}&cart_content=#{cartContent}&current_quantity=1"
-          )
-          .formParam("cart_container", "0")
-          .formParam("cart_widget", "0")
-          .check(regex("Added!").exists)
       )
         .pause(minThinkTime, maxThinkTime)
     }
@@ -58,6 +40,5 @@ object Chairs {
   val flow: ChainBuilder =
     exec(open)
       .exec(openRandomChair)
-      .exec(addToCart)
-
+      .exec(Cart.addToCart)
 }

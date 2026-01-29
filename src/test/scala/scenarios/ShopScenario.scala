@@ -16,9 +16,7 @@ object ShopScenario {
           .exec(Home.open)
 
           // Tables
-          .exec(Tables.open)
-          .exec(Tables.openRandomTable)
-          .exec(Tables.addToCart)
+          .exec(Tables.flow)
 
           // 50% add chair
           .randomSwitch(

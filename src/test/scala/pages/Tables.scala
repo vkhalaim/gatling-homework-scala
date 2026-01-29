@@ -23,31 +23,21 @@ object Tables {
       exec(
         http("Open Table Product")
           .get("/products/#{tableId}")
-          .check(status.is(200))
           .check(
             regex("""<link rel='shortlink' href='.*/\?p=(\d+)'""")
-              .saveAs("tableProductId")
+              .saveAs("currentProductId")
+          )
+          .check(
+            regex("""name="cart_content" value='(.*?)'""")
+              .optional
+              .saveAs("cartContent")
           )
       )
         .pause(minThinkTime, maxThinkTime)
     }
-
-  val addToCart: ChainBuilder =
-    group("04_Add_Table_To_Cart") {
-      exec(
-        http("Add Table To Cart")
-          .post("/wp-admin/admin-ajax.php")
-          .asFormUrlEncoded
-          .formParam("action", "ic_add_to_cart")
-          .formParam(
-            "add_cart_data",
-            "current_product=#{tableProductId}&cart_content=&current_quantity=1"
-          )
-          .formParam("cart_container", "0")
-          .formParam("cart_widget", "0")
-          .check(regex("Added!").exists)
-      )
-        .pause(minThinkTime, maxThinkTime)
-    }
-
+  // Full tables flow (used in randomSwitch)
+  val flow: ChainBuilder =
+    exec(open)
+      .exec(openRandomTable)
+      .exec(Cart.addToCart)
 }
