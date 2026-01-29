@@ -43,6 +43,8 @@ object Tables {
             "add_cart_data",
             "current_product=#{tableProductId}&cart_content=&current_quantity=1"
           )
+          .formParam("cart_container", "0")
+          .formParam("cart_widget", "0")
           .check(regex("Added!").exists)
       )
         .pause(minThinkTime, maxThinkTime)

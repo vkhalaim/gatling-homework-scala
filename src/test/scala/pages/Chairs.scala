@@ -23,10 +23,14 @@ object Chairs {
       exec(
         http("Open Chair Product")
           .get("/products/#{chairId}")
-          .check(status.is(200))
           .check(
             regex("""<link rel='shortlink' href='.*/\?p=(\d+)'""")
               .saveAs("chairProductId")
+          )
+          .check(
+            regex("name=\"cart_content\" value='(.*?)'")
+              .optional
+              .saveAs("cartContent")
           )
       )
         .pause(minThinkTime, maxThinkTime)
@@ -43,6 +47,8 @@ object Chairs {
             "add_cart_data",
             "current_product=#{tableProductId}&cart_content=#{cartContent}&current_quantity=1"
           )
+          .formParam("cart_container", "0")
+          .formParam("cart_widget", "0")
           .check(regex("Added!").exists)
       )
         .pause(minThinkTime, maxThinkTime)

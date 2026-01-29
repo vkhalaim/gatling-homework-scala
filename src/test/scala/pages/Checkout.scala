@@ -12,7 +12,6 @@ object Checkout {
       exec(
         http("Open Checkout")
           .get("/checkout")
-          .check(status.is(200))
           .check(regex("""name="cart_content" value='(.+?)'""").saveAs("cartContent"))
           .check(regex("""value="(\d+)" name="trans_id"""").saveAs("transId"))
           .check(regex("""name="total_net" value="(.+?)"""").saveAs("totalNet"))
@@ -28,7 +27,7 @@ object Checkout {
           .set("city", "Kyiv")
           .set("country", "UA")
           .set("postalCode", "01001")
-          .set("redirectUrl", "/thank-you")
+          .set("redirectUrl", baseUrl + "/thank-you")
           .set("comment", "")
           .set("fullName", s"User_${session.userId}")
           .set("email", s"user${session.userId}@test.com")
@@ -54,7 +53,7 @@ object Checkout {
             .formParam("cart_postal", "#{postalCode}")
             .formParam("cart_email", "#{email}")
             .formParam("total_net", "#{totalNet}")
-            .check(status.is(200))
+            .check(regex("Thank you!").exists)
         )
         .pause(minThinkTime, maxThinkTime)
     }

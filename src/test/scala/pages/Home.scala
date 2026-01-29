@@ -12,7 +12,6 @@ object Home {
       exec(
         http("Open Home")
           .get("/")
-          .check(status.is(200))
           .check(regex("Performance testing Essentials").exists)
       )
         .pause(minThinkTime, maxThinkTime)
