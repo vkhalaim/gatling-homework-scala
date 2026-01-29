@@ -15,7 +15,7 @@ object ShopScenario {
           // Home
           .exec(Home.open)
 
-          // Tables
+          // Tables flow
           .exec(Tables.flow)
 
           // 50% add chair

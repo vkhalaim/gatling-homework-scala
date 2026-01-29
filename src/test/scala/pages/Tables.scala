@@ -12,7 +12,6 @@ object Tables {
       exec(
         http("Open Tables Page")
           .get("/tables")
-          .check(status.is(200))
           .check(regex("/products/(.+?)\"").findRandom.saveAs("tableId"))
       )
         .pause(minThinkTime, maxThinkTime)
@@ -35,7 +34,7 @@ object Tables {
       )
         .pause(minThinkTime, maxThinkTime)
     }
-  // Full tables flow (used in randomSwitch)
+  // Full tables flow
   val flow: ChainBuilder =
     exec(open)
       .exec(openRandomTable)

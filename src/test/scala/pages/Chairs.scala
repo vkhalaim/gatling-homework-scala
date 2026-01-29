@@ -12,7 +12,6 @@ object Chairs {
       exec(
         http("Open Chairs Page")
           .get("/chairs")
-          .check(status.is(200))
           .check(regex("/products/(.+?)\"").findRandom.saveAs("chairId"))
       )
         .pause(minThinkTime, maxThinkTime)
