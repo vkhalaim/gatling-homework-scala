@@ -53,7 +53,7 @@ object Checkout {
             .formParam("cart_postal", "#{postalCode}")
             .formParam("cart_email", "#{email}")
             .formParam("total_net", "#{totalNet}")
-            .check(regex("Thank you!").exists)
+            .check(regex("Thank You").exists)
         )
         .pause(minThinkTime, maxThinkTime)
     }
