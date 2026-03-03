@@ -36,7 +36,7 @@ pipeline {
             }
             post {
                 always {
-                    gatlingArchive()
+                    archiveArtifacts artifacts: 'target/gatling/**'
                 }
             }
         }
