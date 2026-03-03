@@ -23,8 +23,9 @@ class PerfTestSimulation extends Simulation {
 
   setUp(
     scn.inject(
-      rampUsers(users).during(ramp.seconds) // open model
-      // constantConcurrentUsers(100).during(30.seconds) // closed model
+      //rampUsers(users).during(ramp.seconds) // open model
+      rampConcurrentUsers(1).to(users).during(ramp.seconds),
+      constantConcurrentUsers(users).during(duration.seconds) // closed model
     )
   ).protocols(httpProtocol)
 }
