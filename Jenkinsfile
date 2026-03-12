@@ -68,7 +68,7 @@ pipeline {
                 publishHTML([
                     reportName: 'Gatling Performance Report',
                     reportDir: "${REPORT_BASE_DIR}",
-                    reportFiles: 'index.html',
+                    reportFiles: '**/index.html',
                     keepAll: true,
                     alwaysLinkToLastBuild: true,
                     allowMissing: true
