@@ -10,6 +10,8 @@ pipeline {
     }
 
     environment {
+        JAVA_HOME = "/usr/lib/jvm/java-17-openjdk-amd64"
+        PATH = "${JAVA_HOME}/bin:${env.PATH}"
         REPORT_BASE_DIR = "target/gatling"
     }
 
@@ -32,21 +34,21 @@ pipeline {
             steps {
                 sh '''
                 java -version
-                mvn -version
+                ./mvnw -version
                 '''
             }
         }
 
         stage('Build') {
             steps {
-                sh 'mvn -B clean package -DskipTests'
+                sh './mvnw -B clean package -DskipTests'
             }
         }
 
         stage('Run Gatling') {
             steps {
                 sh """
-                mvn gatling:test \
+                ./mvnw gatling:test \
                 -Dusers=${params.USERS} \
                 -Dramp=${params.RAMP} \
                 -Dduration=${params.DURATION} \
