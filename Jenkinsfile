@@ -2,10 +2,6 @@ pipeline {
 
     agent any
 
-    tools {
-        maven 'Maven'
-    }
-
     parameters {
         string(name: 'USERS', defaultValue: '50', description: 'Number of concurrent users')
         string(name: 'RAMP', defaultValue: '150', description: 'Ramp-up time (seconds)')
