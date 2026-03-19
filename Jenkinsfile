@@ -45,6 +45,18 @@ pipeline {
             }
         }
 
+        stage('Start x2i') {
+            steps {
+                sh '''
+                nohup x2i ./target/gatling \
+                --address "http://localhost:8086" \
+                --database "gatlingdb" \
+                --testtool gatling \
+                > x2i.log 2>&1 &
+                '''
+            }
+        }
+
         stage('Run Gatling') {
             steps {
                 sh """
@@ -54,6 +66,12 @@ pipeline {
                 -Dduration=${params.DURATION} \
                 -DbaseUrl=${params.BASE_URL}
                 """
+            }
+        }
+
+         stage('Wait for x2i flush') {
+            steps {
+                sh 'sleep 10'
             }
         }
 
