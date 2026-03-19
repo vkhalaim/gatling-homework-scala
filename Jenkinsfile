@@ -57,6 +57,12 @@ pipeline {
             }
         }
 
+        stage('Wait for x2i startup') {
+            steps {
+                sh 'sleep 10'
+            }
+        }
+
         stage('Run Gatling') {
             steps {
                 sh """
