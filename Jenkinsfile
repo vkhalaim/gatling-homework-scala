@@ -57,19 +57,6 @@ pipeline {
             }
         }
 
-        stage('Parse Gatling results to Influx (x2i)') {
-            steps {
-                sh '''
-                cd /tmp
-
-                x2i /var/lib/jenkins/workspace/Gatling-Perf-Test/target/gatling \
-                --address "http://localhost:8086" \
-                --database "gatlingdb" \
-                --testtool gatling
-                '''
-            }
-        }
-
         stage('Archive Results') {
             steps {
                 archiveArtifacts artifacts: "${REPORT_BASE_DIR}/**", fingerprint: true
