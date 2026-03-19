@@ -45,24 +45,6 @@ pipeline {
             }
         }
 
-        stage('Start x2i') {
-            steps {
-                sh '''
-                nohup x2i ./target/gatling \
-                --address "http://localhost:8086" \
-                --database "gatlingdb" \
-                --testtool gatling \
-                > x2i.log 2>&1 &
-                '''
-            }
-        }
-
-        stage('Wait for x2i startup') {
-            steps {
-                sh 'sleep 10'
-            }
-        }
-
         stage('Run Gatling') {
             steps {
                 sh """
@@ -75,9 +57,16 @@ pipeline {
             }
         }
 
-         stage('Wait for x2i flush') {
+        stage('Parse Gatling results to Influx (x2i)') {
             steps {
-                sh 'sleep 10'
+                sh '''
+                cd /tmp
+
+                x2i /var/lib/jenkins/workspace/Gatling-Perf-Test/target/gatling \
+                --address "http://localhost:8086" \
+                --database "gatlingdb" \
+                --testtool gatling
+                '''
             }
         }
 
